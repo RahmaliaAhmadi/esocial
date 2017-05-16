@@ -14,12 +14,12 @@ class PostsController extends Controller
     public function index()
     {
 
-      $page_title = '<h1>Senarai Posts</h1>';
+      $posts = null;
 
       // Kita bagi arahan pada laravel supaya beri response
       // Paparkan template bernama template_posts_index.php
       // yang berada di dalam folder resources/views/posts_tpl
-      return view('posts_tpl/template_posts_index', compact('page_title'));
+      return view('posts_tpl/template_admin_posts_index', compact('posts'));
 
     }
 
@@ -33,6 +33,18 @@ class PostsController extends Controller
         //
     }
 
+    public function newsfeed()
+    {
+
+      $posts = null;
+
+      // Kita bagi arahan pada laravel supaya beri response
+      // Paparkan template bernama template_posts_index.php
+      // yang berada di dalam folder resources/views/posts_tpl
+      return view('posts_tpl/template_user_posts_index', compact('posts'));
+
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -41,7 +53,7 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return redirect('/newsfeed')->with('alert-success', 'Thank you for posting!');
     }
 
     /**
@@ -81,7 +93,7 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return redirect('posts');
     }
 
     /**
@@ -92,6 +104,6 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return redirect('posts');
     }
 }

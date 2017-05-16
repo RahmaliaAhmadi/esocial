@@ -34,9 +34,26 @@ Route::group( ['prefix' => 'users'], function() {
 
 });
 
+// Route pengurusan users oleh admin
+Route::group( ['prefix' => 'posts'], function() {
+
+  Route::get('/', 'PostsController@index');
+  Route::get('/{id}/edit', 'PostsController@edit');
+  Route::patch('/{id}', 'PostsController@update');
+  Route::delete('/{id}', 'PostsController@destroy');
+
+});
+
 // Route pengurusan profile oleh user
 Route::get('/profile', 'UsersController@userProfile');
 Route::patch('/profile', 'UsersController@updateProfile');
 
 // Papar profile user
 Route::get('/profile/{username}', 'UsersController@show');
+
+
+Route::get('/newsfeed', 'PostsController@newsfeed');
+Route::post('/newsfeed', 'PostsController@store');
+Route::get('/newsfeed/{id}', 'PostsController@show');
+Route::get('/newsfeed/{id}/edit', 'PostsController@edit');
+Route::patch('/newsfeed/{id}', 'PostsController@update');
