@@ -39,13 +39,15 @@ Route::group( ['prefix' => 'posts'], function() {
 
   Route::get('/{id}', function($id) {
 
-    return view('posts_tpl/template_posts_show');
+    // paparkan template beserta dengan attachment variable $id
+    return view('posts_tpl/template_posts_show', compact('id') );
+    //return view('posts_tpl/template_posts_show', ['id' => $id]);
 
   });
 
   Route::get('/{id}/edit', function($id) {
 
-    return view('posts_tpl/template_posts_edit');
+    return view('posts_tpl/template_posts_edit', compact('id'));
 
   });
 

@@ -8,7 +8,7 @@
                 <div class="panel-heading">Paparan Post</div>
                 <div class="panel-body">
 
-                  <p>Contoh Post 1</p>
+                  <p>Contoh Post <?php echo $id; ?></p>
 
                 </div>
 
