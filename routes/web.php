@@ -11,44 +11,32 @@ Auth::routes();
 // Route untuk halaman setelah login (member area)
 Route::get('/home', 'HomeController@index')->name('home');
 
-// Paparan profile
-Route::get('profile/{username?}', function($username = 'John') {
-
-  // Tetapan condition supaya username perlu diisi
-  if ( is_null( $username ) )
-  {
-    return 'Sila dapatkan username bagi profile yang ingin dibuka.';
-  }
-  // Paparkan data apabila username dibekalkan
-  return 'Username bagi profile ini adalah: ' . $username;
-
-});
-
-
 // Route pengurusan posts
 Route::group( ['prefix' => 'posts'], function() {
 
-  Route::get('/', function() {
+  Route::get('/', 'PostsController@index');
 
-    // Kita bagi arahan pada laravel supaya beri response
-    // Paparkan template bernama template_posts_index.php
-    // yang berada di dalam folder resources/views/posts_tpl
-    return view('posts_tpl/template_posts_index');
+  Route::get('/{id}', 'PostsController@show');
 
-  });
-
-  Route::get('/{id}', function($id) {
-
-    // paparkan template beserta dengan attachment variable $id
-    return view('posts_tpl/template_posts_show', compact('id') );
-    //return view('posts_tpl/template_posts_show', ['id' => $id]);
-
-  });
-
-  Route::get('/{id}/edit', function($id) {
-
-    return view('posts_tpl/template_posts_edit', compact('id'));
-
-  });
+  Route::get('/{id}/edit', 'PostsController@edit');
 
 });
+
+// Route pengurusan users oleh admin
+Route::group( ['prefix' => 'users'], function() {
+
+  Route::get('/', 'UsersController@index');
+  Route::get('/add', 'UsersController@create');
+  Route::post('/add', 'UsersController@store');
+  Route::get('/{id}/edit', 'UsersController@edit');
+  Route::patch('/{id}', 'UsersController@update');
+  Route::delete('/{id}', 'UsersController@destroy');
+
+});
+
+// Route pengurusan profile oleh user
+Route::get('/profile', 'UsersController@userProfile');
+Route::patch('/profile', 'UsersController@updateProfile');
+
+// Papar profile user
+Route::get('/profile/{username}', 'UsersController@show');

@@ -39,3 +39,9 @@
     </div>
 </div>
 @endsection
+
+@section('script')
+<script>
+alert('test');
+</script>
+@endsection
