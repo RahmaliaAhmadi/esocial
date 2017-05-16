@@ -8,6 +8,8 @@
                 <div class="panel-heading">Add New User</div>
                 <div class="panel-body">
 
+                  @include('layouts/errors')
+
                   <form class="form-horizontal" role="form" action="" method="POST">
                       {{ csrf_field() }}
 

@@ -36,7 +36,17 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        return redirect('users');
+      // Validasi data
+      $this->validate( $request, [
+          'username' => 'required|min:3|alpha_dash'
+      ] );
+
+
+      $data = $request->all();
+
+      // return $data;
+      dd($data);
+      //return redirect('users');
     }
 
     /**
