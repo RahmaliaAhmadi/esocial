@@ -38,7 +38,10 @@ class UsersController extends Controller
     {
       // Validasi data
       $this->validate( $request, [
-          'username' => 'required|min:3|alpha_dash'
+          'username' => 'required|min:3|alpha_dash',
+          'password' => 'required|min:3',
+          'email' => 'required|email',
+          'full_name' => 'required'
       ] );
 
 

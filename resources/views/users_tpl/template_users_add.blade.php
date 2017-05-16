@@ -13,11 +13,12 @@
                   <form class="form-horizontal" role="form" action="" method="POST">
                       {{ csrf_field() }}
 
-                      <div class="form-group">
+                      <div class="form-group{!! $errors->first('username', ' has-error') !!}">
                           <label for="username" class="col-md-4 control-label">Username</label>
 
                           <div class="col-md-6">
-                              <input type="text" name="username" placeholder="User username" class="form-control" >
+                              <input type="text" name="username" placeholder="User username" class="form-control">
+                              {!! $errors->first('username', '<span class="help-block">:message</span>') !!}
                           </div>
                       </div>
 
@@ -26,6 +27,7 @@
 
                           <div class="col-md-6">
                               <input type="email" name="email" placeholder="User email" class="form-control">
+                              {!! $errors->first('email') !!}
                           </div>
                       </div>
 
