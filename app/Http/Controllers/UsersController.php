@@ -26,6 +26,16 @@ class UsersController extends Controller
       return view('users_tpl/template_users_index', compact('users') );
     }
 
+    public function posts($id)
+    {
+      $user = DB::table('users')->where('id', $id)->first();
+
+      $posts = DB::table('posts')->where('user_id', $id)->paginate(3);
+
+
+      return view('users_tpl/template_admin_users_posts', compact('user', 'posts') );
+    }
+
     /**
      * Show the form for creating a new resource.
      *

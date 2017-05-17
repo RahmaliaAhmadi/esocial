@@ -32,6 +32,7 @@ Route::group( ['prefix' => 'users'], function() {
   Route::get('/{id}/edit', 'UsersController@edit')->name('editUser');
   Route::patch('/{id}', 'UsersController@update')->name('updateUser');
   Route::get('/{id}/delete', 'UsersController@destroy')->name('deleteUser');
+  Route::get('/{id}/posts', 'UsersController@posts')->name('userPosts');
 
 });
 

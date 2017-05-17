@@ -39,6 +39,7 @@
                           <td>{{ $key->role }}</td>
                           <td>{{ $key->status }}</td>
                           <td>
+                            <a href="{{ route('userPosts', $key->id) }}" class="btn btn-xs btn-info">Posts</a>
                             <a href="./users/{{ $key->id }}/edit" class="btn btn-xs btn-info">Edit</a>
                             <a href="{{ route('deleteUser', $key->id) }}" class="btn btn-xs btn-danger">Delete</a>
                           </td>
