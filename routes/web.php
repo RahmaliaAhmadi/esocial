@@ -3,6 +3,7 @@
 // Route untuk halaman utama sistem
 Route::get('/', function () {
   return view('welcome');
+  // return bcrypt('passwordabc123');
 });
 
 // Route untuk proses authentication
@@ -12,7 +13,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 // Route pengurusan posts
-Route::group( ['prefix' => 'posts'], function() {
+Route::group( ['prefix' => 'posts', 'middleware' => 'auth'], function() {
 
   Route::get('/', 'PostsController@index');
 
@@ -25,17 +26,17 @@ Route::group( ['prefix' => 'posts'], function() {
 // Route pengurusan users oleh admin
 Route::group( ['prefix' => 'users'], function() {
 
-  Route::get('/', 'UsersController@index');
-  Route::get('/add', 'UsersController@create');
-  Route::post('/add', 'UsersController@store');
-  Route::get('/{id}/edit', 'UsersController@edit');
-  Route::patch('/{id}', 'UsersController@update');
-  Route::delete('/{id}', 'UsersController@destroy');
+  Route::get('/', 'UsersController@index')->name('senaraiUser');
+  Route::get('/add', 'UsersController@create')->name('tambahUser');
+  Route::post('/add', 'UsersController@store')->name('simpanUser');
+  Route::get('/{id}/edit', 'UsersController@edit')->name('editUser');
+  Route::patch('/{id}', 'UsersController@update')->name('updateUser');
+  Route::get('/{id}/delete', 'UsersController@destroy')->name('deleteUser');
 
 });
 
 // Route pengurusan users oleh admin
-Route::group( ['prefix' => 'posts'], function() {
+Route::group( ['prefix' => 'posts', 'middleware' => 'auth'], function() {
 
   Route::get('/', 'PostsController@index');
   Route::get('/{id}/edit', 'PostsController@edit');

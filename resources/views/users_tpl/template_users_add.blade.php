@@ -106,7 +106,7 @@
                 </div>
 
                 <div class="panel-footer">
-                   <a href="../" class="btn btn-default">Back</a>
+                   <a href="{{ route('senaraiUser') }}" class="btn btn-default">Back</a>
                 </div>
 
             </div>

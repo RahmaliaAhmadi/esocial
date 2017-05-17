@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
 
 class UsersController extends Controller
 {
@@ -13,9 +14,16 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = null;
+      // Panggil kesemua data dari table users
+      $users = DB::table('users')
+      //->where('email', '=', 'admin@gmail.com')
+      //->orderBy('id', 'desc')
+      //->get();
+      //->select('id', 'username')
+      //->get();
+      ->paginate(3);
 
-        return view('users_tpl/template_users_index', compact('users') );
+      return view('users_tpl/template_users_index', compact('users') );
     }
 
     /**
@@ -38,18 +46,43 @@ class UsersController extends Controller
     {
       // Validasi data
       $this->validate( $request, [
-          'username' => 'required|min:3|alpha_dash',
+          'username' => 'required|min:3|alpha_dash|unique:users,username',
+          'email' => 'required|email|unique:users,email',
           'password' => 'required|min:3',
-          'email' => 'required|email',
           'full_name' => 'required'
       ] );
 
+      // Dapatkan semua input yang ingin disimpan
+      // $data = $request->all();
+      $data = $request->only([
+        'username',
+        'email',
+        'full_name',
+        'phone',
+        'address',
+        'role',
+        'status',
+        'picture'
+      ]);
 
-      $data = $request->all();
+      $data['password'] = bcrypt( $request->input('password') );
 
-      // return $data;
-      dd($data);
-      //return redirect('users');
+      // Simpan data ke dalam database
+      DB::table('users')->insert($data);
+      // DB::table('users')->insert([
+      //   'username' => $request->input('username'),
+      //   'email' => $request->input('email'),
+      //   'password' => bcrypt( $request->input('password') ),
+      //   'full_name' => $request->input('full_name'),
+      //   'phone' => $request->input('phone'),
+      //   'address' => $request->input('address'),
+      //   'role' => $request->input('role'),
+      //   'status' => $request->input('status'),
+      //   'picture' => $request->input('picture')
+      // ]);
+
+      // Redirect ke senarai user
+      return redirect()->route('senaraiUser');
     }
 
     /**
@@ -73,7 +106,8 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-      $user = $id;
+      $user = DB::table('users')->where('id', '=', $id)->first();
+      // $user = DB::table('users')->find($id);
 
       return view('users_tpl/template_users_edit', compact('user') );
     }
@@ -89,19 +123,37 @@ class UsersController extends Controller
     {
       // Validasi data
       $this->validate( $request, [
-          'username' => 'required|min:3|alpha_dash',
-          'password' => 'required|min:3',
-          'email' => 'required|email',
+          'username' => 'required|min:3|alpha_dash|unique:users,username,' . $id,
+          'email' => 'required|email|unique:users,email,' . $id,
           'full_name' => 'required'
       ] );
 
+      // Dapatkan semua input yang ingin disimpan
+      // $data = $request->all();
+      $data = $request->only([
+        'username',
+        'email',
+        'full_name',
+        'phone',
+        'address',
+        'role',
+        'status',
+        'picture'
+      ]);
 
-      $data = $request->all();
+      // Semak adakah password ingin ditukar (field tak kosong)
+      // Jika ruangan password tidak kosong, attach array password
+      // dan data password yang diencrypt ke variable $data
+      if( ! empty( $request->input('password') ) )
+      {
+        $data['password'] = bcrypt( $request->input('password') );
+      }
 
-      // return $data;
-      dd($data);
+      // Simpan data ke dalam database
+      DB::table('users')->where('id', '=', $id)->update($data);
 
-      //return redirect('users');
+      // Bagi response dengan cara redirect ke senarai user
+      return redirect()->route('senaraiUser');
     }
 
     /**
@@ -112,9 +164,14 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-      $user = $id;
+      // Cari ID yang ingin dihapuskan
+      $user = DB::table('users')->where('id', '=', $id);
 
-      return redirect('users');
+      // Dan hapuskan data
+      $user->delete();
+
+      // Redirect ke halaman senarai users
+      return redirect()->route('senaraiUser');
     }
 
     public function userProfile()

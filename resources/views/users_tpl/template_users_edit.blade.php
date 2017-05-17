@@ -5,10 +5,12 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Edit User</div>
+                <div class="panel-heading">Edit User {{ $user->full_name }}</div>
                 <div class="panel-body">
 
-                  <form class="form-horizontal" role="form" action="../" method="POST">
+                  @include('layouts/errors')
+
+                  <form class="form-horizontal" role="form" action="{{ route('updateUser', $user->id) }}" method="POST">
                       <input type="hidden" name="_method" value="PATCH">
                       {{ csrf_field() }}
 
@@ -16,7 +18,7 @@
                           <label for="username" class="col-md-4 control-label">Username</label>
 
                           <div class="col-md-6">
-                              <input type="text" name="username" placeholder="User username" class="form-control" >
+                              <input type="text" name="username" placeholder="User username" class="form-control" value="{{ $user->username }}">
                           </div>
                       </div>
 
@@ -24,7 +26,7 @@
                           <label for="email" class="col-md-4 control-label">Email</label>
 
                           <div class="col-md-6">
-                              <input type="email" name="email" placeholder="User email" class="form-control">
+                              <input type="email" name="email" placeholder="User email" class="form-control" value="{{ $user->email }}">
                           </div>
                       </div>
 
@@ -40,7 +42,7 @@
                           <label for="full_name" class="col-md-4 control-label">Full Name</label>
 
                           <div class="col-md-6">
-                              <input type="text" name="full_name" placeholder="User full name" class="form-control">
+                              <input type="text" name="full_name" placeholder="User full name" class="form-control" value="{{ $user->full_name }}">
                           </div>
                       </div>
 
@@ -48,7 +50,7 @@
                           <label for="phone" class="col-md-4 control-label">Phone</label>
 
                           <div class="col-md-6">
-                              <input type="text" name="phone" placeholder="User phone" class="form-control">
+                              <input type="text" name="phone" placeholder="User phone" class="form-control" value="{{ $user->phone }}">
                           </div>
                       </div>
 
@@ -56,7 +58,7 @@
                           <label for="address" class="col-md-4 control-label">Address</label>
 
                           <div class="col-md-6">
-                              <textarea name="address" class="form-control" placeholder="User address"></textarea>
+                              <textarea name="address" class="form-control" placeholder="User address">{{ $user->address }}</textarea>
                           </div>
                       </div>
 

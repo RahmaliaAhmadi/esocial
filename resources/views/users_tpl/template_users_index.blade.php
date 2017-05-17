@@ -9,9 +9,11 @@
                 <div class="panel-body">
 
                   <p>
-                    <a href="./users/add" class="btn btn-primary">Add User</a>
+                    <a href="{{ route('tambahUser') }}" class="btn btn-primary">Add User</a>
                   </p>
-                  
+
+                  @if ( count( $users ) )
+
                   <div class="table-responsive">
 
                     <table class="table table-bordered table-hover">
@@ -29,35 +31,31 @@
 
                       <tbody>
 
+                        @foreach( $users as $key )
                         <tr>
-                          <td>admin</td>
-                          <td>Ahmad Albab</td>
-                          <td>ahmad@albab.com</td>
-                          <td>admin</td>
-                          <td>active</td>
+                          <td>{{ $key->username }}</td>
+                          <td>{{ $key->full_name }}</td>
+                          <td>{{ $key->email }}</td>
+                          <td>{{ $key->role }}</td>
+                          <td>{{ $key->status }}</td>
                           <td>
-                            <a href="./users/1/edit" class="btn btn-xs btn-info">Edit</a>
-                            <a href="#" class="btn btn-xs btn-danger">Delete</a>
+                            <a href="./users/{{ $key->id }}/edit" class="btn btn-xs btn-info">Edit</a>
+                            <a href="{{ route('deleteUser', $key->id) }}" class="btn btn-xs btn-danger">Delete</a>
                           </td>
                         </tr>
-
-                        <tr>
-                          <td>user</td>
-                          <td>Ali Baba</td>
-                          <td>ali@baba.com</td>
-                          <td>user</td>
-                          <td>active</td>
-                          <td>
-                            <a href="./users/2/edit" class="btn btn-xs btn-info">Edit</a>
-                            <a href="#" class="btn btn-xs btn-danger">Delete</a>
-                          </td>
-                        </tr>
+                        @endforeach
 
                       </tbody>
 
                     </table>
 
                   </div><!-- table-responsive -->
+
+                  {!! $users->links() !!}
+                  <br>
+                  {!! $users->render() !!}
+
+                  @endif
 
                 </div>
             </div>
