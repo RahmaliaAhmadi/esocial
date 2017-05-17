@@ -66,6 +66,10 @@
                                 </ul>
                             </li>
                         @endif
+                        <li><a href="{{ url('/users') }}">Users</a></li>
+                        <li><a href="{{ url('/posts') }}">Posts</a></li>
+                        <li><a href="{{ url('/register') }}">Gallery</a></li>
+                        <li><a href="{{ url('/newsfeed') }}">Newsfeed</a></li>
                     </ul>
                 </div>
             </div>

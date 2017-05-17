@@ -87,7 +87,21 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return redirect('users');
+      // Validasi data
+      $this->validate( $request, [
+          'username' => 'required|min:3|alpha_dash',
+          'password' => 'required|min:3',
+          'email' => 'required|email',
+          'full_name' => 'required'
+      ] );
+
+
+      $data = $request->all();
+
+      // return $data;
+      dd($data);
+
+      //return redirect('users');
     }
 
     /**

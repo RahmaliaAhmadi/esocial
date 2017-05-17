@@ -74,6 +74,10 @@
                         <a href="{{ url('/login') }}">Login</a>
                         <a href="{{ url('/register') }}">Register</a>
                     @endif
+                    <a href="{{ url('/users') }}">Users</a>
+                    <a href="{{ url('/posts') }}">Posts</a>
+                    <a href="{{ url('/register') }}">Gallery</a>
+                    <a href="{{ url('/newsfeed') }}">Newsfeed</a>
                 </div>
             @endif
 
