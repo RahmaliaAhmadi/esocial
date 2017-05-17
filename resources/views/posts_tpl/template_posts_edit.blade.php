@@ -8,17 +8,25 @@
                 <div class="panel-heading">Edit Post</div>
                 <div class="panel-body">
 
-                  <form class="form-horizontal" role="form" action="../" method="POST">
+                  <form class="form-horizontal" role="form" action="{{ route('updatePost', $post->id) }}" method="POST">
                       <input type="hidden" name="_method" value="PATCH">
                       {{ csrf_field() }}
 
                       <p>This content is posted by: admin</p>
 
                       <div class="form-group">
+                          <label for="title" class="col-md-4 control-label">Title</label>
+
+                          <div class="col-md-6">
+                              <input type="text" class="form-control" value="{{ $post->title }}">
+                          </div>
+                      </div>
+
+                      <div class="form-group">
                           <label for="address" class="col-md-4 control-label">Content</label>
 
                           <div class="col-md-6">
-                              <textarea name="content" class="form-control" placeholder="Post content"></textarea>
+                              <textarea name="content" class="form-control" placeholder="Post content">{{ $post->content}}</textarea>
                           </div>
                       </div>
 

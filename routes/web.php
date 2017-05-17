@@ -36,12 +36,12 @@ Route::group( ['prefix' => 'users'], function() {
 });
 
 // Route pengurusan users oleh admin
-Route::group( ['prefix' => 'posts', 'middleware' => 'auth'], function() {
+Route::group( ['prefix' => 'posts'], function() {
 
-  Route::get('/', 'PostsController@index');
-  Route::get('/{id}/edit', 'PostsController@edit');
-  Route::patch('/{id}', 'PostsController@update');
-  Route::delete('/{id}', 'PostsController@destroy');
+  Route::get('/', 'PostsController@index')->name('indexPosts');
+  Route::get('/{id}/edit', 'PostsController@edit')->name('editPost');
+  Route::patch('/{id}', 'PostsController@update')->name('updatePost');
+  Route::delete('/{id}', 'PostsController@destroy')->name('deletePost');
 
 });
 

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Auth;
+use DB;
+
 class PostsController extends Controller
 {
     /**
@@ -14,7 +17,15 @@ class PostsController extends Controller
     public function index()
     {
 
-      $posts = null;
+      //$posts = DB::table('posts')->paginate(5);
+      $posts = DB::table('posts')
+      ->join('users', 'posts.user_id', '=', 'users.id')
+      ->select([
+        'posts.*',
+        'users.username',
+        'users.full_name'
+      ])
+      ->paginate(5);
 
       // Kita bagi arahan pada laravel supaya beri response
       // Paparkan template bernama template_posts_index.php
@@ -35,8 +46,13 @@ class PostsController extends Controller
 
     public function newsfeed()
     {
+      // Dapatkan data user yang sedang login (dari table users)
+      $user = Auth::user();
 
-      $posts = null;
+      $posts = DB::table('posts')
+      ->where('user_id', '=', $user->id)
+      ->orderBy('id', 'desc')
+      ->paginate(3);
 
       // Kita bagi arahan pada laravel supaya beri response
       // Paparkan template bernama template_posts_index.php
@@ -53,7 +69,19 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        return redirect('/newsfeed')->with('alert-success', 'Thank you for posting!');
+      // Dapatkan data user yang sedang login (dari table users)
+      $user = Auth::user();
+
+      // Dapatkan data dari borang
+      $data = $request->only('title', 'content', 'status');
+
+      // Attach maklumat user_id
+      $data['user_id'] = $user->id;
+
+      // Simpan data ke dalam database
+      DB::table('posts')->insert($data);
+
+      return redirect('/newsfeed')->with('alert-success', 'Thank you for posting!');
     }
 
     /**
@@ -80,7 +108,9 @@ class PostsController extends Controller
     public function edit($id)
     {
 
-      return view('posts_tpl/template_posts_edit', compact('id'));
+      $post = DB::table('posts')->where('id', $id)->first();
+
+      return view('posts_tpl/template_posts_edit', compact('post'));
 
     }
 

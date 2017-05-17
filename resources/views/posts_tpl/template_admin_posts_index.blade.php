@@ -8,15 +8,17 @@
                 <div class="panel-heading">Posts List</div>
                 <div class="panel-body">
 
+                  @if( count( $posts ) )
+
                   <div class="table-responsive">
 
                     <table class="table table-bordered table-hover">
 
                       <thead>
                         <tr>
+                          <th>Title</th>
                           <th>Content</th>
-                          <th>Username</th>
-                          <th>Name</th>
+                          <th>Writer</th>
                           <th>Status</th>
                           <th>Action</th>
                         </tr>
@@ -24,34 +26,26 @@
 
                       <tbody>
 
+                        @foreach( $posts as $key )
                         <tr>
-                          <td>Sample Post 1</td>
-                          <td>admin</td>
-                          <td>Ahmad Albab</td>
-                          <td>Published</td>
+                          <td>{{ $key->title }}</td>
+                          <td>{{ $key->content }}</td>
+                          <td>{{ $key->full_name }}</td>
+                          <td>{{ $key->status }}</td>
                           <td>
-                            <a href="./posts/1/edit" class="btn btn-xs btn-info">Edit</a>
+                            <a href="{{ route('editPost', $key->id) }}" class="btn btn-xs btn-info">Edit</a>
                             <a href="#" class="btn btn-xs btn-danger">Delete</a>
                           </td>
                         </tr>
-
-                        <tr>
-                          <td>Sample Post 2</td>
-                          <td>user</td>
-                          <td>Ali Baba</td>
-                          <td>Draft</td>
-                          <td>
-                            <a href="./posts/2/edit" class="btn btn-xs btn-info">Edit</a>
-                            <a href="#" class="btn btn-xs btn-danger">Delete</a>
-                          </td>
-                        </tr>
-
+                        @endforeach
 
                       </tbody>
 
                     </table>
 
                   </div><!-- table-responsive -->
+
+                  @endif
 
                 </div>
             </div>
