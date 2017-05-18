@@ -10,7 +10,9 @@ Route::get('/', function () {
 Auth::routes();
 
 // Route untuk halaman setelah login (member area)
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', function(){
+  return redirect('newsfeed');
+});
 
 // Route pengurusan posts
 Route::group( ['prefix' => 'posts', 'middleware' => 'auth'], function() {
@@ -32,7 +34,7 @@ Route::group( ['prefix' => 'users'], function() {
   Route::post('/add', 'UsersController@store')->name('simpanUser');
   Route::get('/{id}/edit', 'UsersController@edit')->name('editUser');
   Route::patch('/{id}', 'UsersController@update')->name('updateUser');
-  Route::get('/{id}/delete', 'UsersController@destroy')->name('deleteUser');
+  Route::delete('/{id}', 'UsersController@destroy')->name('deleteUser');
   Route::get('/{id}/posts', 'UsersController@posts')->name('userPosts');
 
 });
@@ -48,14 +50,14 @@ Route::group( ['prefix' => 'posts'], function() {
 });
 
 // Route pengurusan profile oleh user
-Route::get('/profile', 'UsersController@userProfile');
-Route::patch('/profile', 'UsersController@updateProfile');
+Route::get('/profile', 'UsersController@userProfile')->name('editProfile');
+Route::patch('/profile', 'UsersController@updateProfile')->name('updateProfile');
 
 // Papar profile user
 Route::get('/profile/{username}', 'UsersController@show');
 
 
-Route::get('/newsfeed', 'PostsController@newsfeed');
+Route::get('/newsfeed', 'PostsController@newsfeed')->name('newsfeed');
 Route::post('/newsfeed', 'PostsController@store');
 Route::get('/newsfeed/{id}', 'PostsController@show');
 Route::get('/newsfeed/{id}/edit', 'PostsController@edit');

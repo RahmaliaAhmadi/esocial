@@ -74,25 +74,14 @@
                         <a href="{{ url('/login') }}">Login</a>
                         <a href="{{ url('/register') }}">Register</a>
                     @endif
-                    <a href="{{ url('/users') }}">Users</a>
-                    <a href="{{ url('/posts') }}">Posts</a>
-                    <a href="{{ url('/register') }}">Gallery</a>
-                    <a href="{{ url('/newsfeed') }}">Newsfeed</a>
                 </div>
             @endif
 
             <div class="content">
                 <div class="title m-b-md">
-                    Kursus PHP
+                    Sistem e-Social
                 </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
+                <p>Jom bersosial</p>
             </div>
         </div>
     </body>

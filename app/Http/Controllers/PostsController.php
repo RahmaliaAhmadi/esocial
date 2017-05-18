@@ -53,15 +53,10 @@ class PostsController extends Controller
       // Dapatkan data user yang sedang login (dari table users)
       $user = Auth::user();
 
-      $posts = DB::table('posts')
-      ->where('user_id', '=', $user->id)
-      ->orderBy('id', 'desc')
-      ->paginate(3);
-
       // Kita bagi arahan pada laravel supaya beri response
       // Paparkan template bernama template_posts_index.php
       // yang berada di dalam folder resources/views/posts_tpl
-      return view('posts_tpl/template_user_posts_index', compact('posts'));
+      return view('posts_tpl/template_user_posts_index', compact('user'));
 
     }
 

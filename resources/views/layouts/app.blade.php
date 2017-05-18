@@ -49,12 +49,21 @@
                             <li><a href="{{ route('login') }}">Masuk</a></li>
                             <li><a href="{{ route('register') }}">Daftar</a></li>
                         @else
+
+                            <li><a href="{{ route('newsfeed') }}">Newsfeed</a></li>
+
+                            @if ( Auth::user()->role == 'admin' )
+                            <li><a href="{{ route('senaraiUser') }}">Users</a></li>
+                            <li><a href="{{ route('indexPosts') }}">Posts</a></li>
+                            @endif
+                            <li><a href="#">Gallery</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    {{ Auth::user()->full_name }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{{ route('editProfile') }}">Profile</a></li>
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
@@ -69,10 +78,6 @@
                                 </ul>
                             </li>
                         @endif
-                        <li><a href="{{ url('/users') }}">Users</a></li>
-                        <li><a href="{{ url('/posts') }}">Posts</a></li>
-                        <li><a href="{{ url('/register') }}">Gallery</a></li>
-                        <li><a href="{{ url('/newsfeed') }}">Newsfeed</a></li>
                     </ul>
                 </div>
             </div>

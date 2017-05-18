@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Auth;
 
 // Panggil Model yang diperlukan
 use App\Models\User;
@@ -18,17 +19,6 @@ class UsersController extends Controller
      */
     public function index()
     {
-      // Panggil kesemua data dari table users
-      // $users = DB::table('users')
-      // //->where('email', '=', 'admin@gmail.com')
-      // //->orderBy('id', 'desc')
-      // //->get();
-      // //->select('id', 'username')
-      // //->get();
-      // ->paginate(3);
-
-      // $users = User::paginate(3);
-
       return view('users_tpl/template_users_index');
     }
 
@@ -45,8 +35,41 @@ class UsersController extends Controller
 
       return Datatables::of($users)
       ->addColumn('action', function ($user) {
-          return '<a href="'. route('editUser', $user->id) .'" class="btn btn-xs btn-primary">Edit</a>
-          <a href="'. route('deleteUser', $user->id) .'" class="btn btn-xs btn-danger">Delete</a>';
+          return '
+          <a href="'. route('editUser', $user->id) .'" class="btn btn-xs btn-primary">Edit</a>
+
+          <!-- Button trigger delete modal -->
+          <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#delete-'.$user->id.'">
+            Delete
+          </button>
+
+          <!-- Mula Modal Delete -->
+          <div class="modal fade" id="delete-'.$user->id.'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Pengesahan Hapus Data '.$user->full_name.'</h4>
+                </div>
+                <div class="modal-body">
+                  Adakah anda bersetuju untuk menghapuskan '.$user->full_name.' ?
+                </div>
+                <div class="modal-footer">
+
+                  <form method="POST" action="'.route('deleteUser', $user->id).'">
+                  <input type="hidden" name="_method" value="DELETE">
+                  <input type="hidden" name="_token" value='.csrf_token().'>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-danger">Confirm</button>
+                  </form>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Tamat Modal Delete -->
+
+          ';
       })
       ->make(true);
     }
@@ -198,17 +221,55 @@ class UsersController extends Controller
 
     public function userProfile()
     {
-
-      $user = array('username' => 'admin', 'full_name' => 'Ahmad', 'email' => 'sample@gmail.com');
+      $user = Auth::user();
 
       return view('users_tpl/template_profile_edit', compact('user') );
 
     }
 
-    public function updateProfile()
+    public function updateProfile( Request $request )
     {
+      $user = Auth::user();
 
-      return redirect('/');
+      // Validasi data
+      $this->validate( $request, [
+          'username' => 'required|min:3|alpha_dash|unique:users,username,' . $user->id,
+          'email' => 'required|email|unique:users,email,' . $user->id,
+          'full_name' => 'required'
+      ] );
+
+      // Dapatkan semua data dari borang edit kecuali yang dinyatakan
+      $data = $request->except(['password', 'picture']);
+
+      // Lakukan semakan terhadap input picture. Adakah fail untuk diupload wujud>?
+      if( $request->hasFile('picture') )
+      {
+        // Tetapkan syarat supaya fail yang diupload adalah valid
+        if ( $request->file('picture')->isValid() )
+        {
+          // Dapatkan nama asal fail yang diupload
+          //$original_pic_name = $request->picture->getClientOriginalName();
+          // Tetapkan lokasi untuk simpanan fail yang ingin diupload ini.
+          //$path = $request->picture->storeAs('images', $original_pic_name);
+          $path = $request->picture->store('images');
+          // Attach array picture kepada variable $data untuk simpanan nama fail ke table users
+          $data['picture'] = $path;
+        }
+      }
+
+      // Semak adakah password ingin ditukar (field tak kosong)
+      // Jika ruangan password tidak kosong, attach array password
+      // dan data password yang diencrypt ke variable $data
+      if( ! empty( $request->input('password') ) )
+      {
+        $data['password'] = bcrypt( $request->input('password') );
+      }
+
+      // Simpan data ke dalam database
+      // DB::table('users')->where('id', '=', $id)->update($data);
+      User::find( $user->id )->update($data);
+      // Bagi response dengan cara redirect ke senarai user
+      return redirect()->route('editProfile')->with('alert-success', 'Profile berjaya dikemaskini!');
 
     }
 }

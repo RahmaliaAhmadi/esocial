@@ -53,9 +53,9 @@
     </div>
 </div>
 
-@if ( count( $posts ) )
+@if ( count( $user->posts ) )
 
-@foreach( $posts as $key )
+@foreach( $user->posts as $key )
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -73,7 +73,7 @@
 
 @endforeach
 
-{{ $posts->links() }}
+
 
 @endif
 

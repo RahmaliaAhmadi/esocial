@@ -55,6 +55,8 @@
     </div>
 </div>
 
+@if ( Auth::user()->role == 'admin')
+
 <div class="form-group">
     <label for="role" class="col-md-4 control-label">Role</label>
 
@@ -70,6 +72,8 @@
       {!! Form::select('status', ['pending' => 'Pending', 'active' => 'Active', 'banned' => 'Banned'], null, ['class' => 'form-control', 'placeholder' => '-- Sila Pilih Status --']) !!}
     </div>
 </div>
+
+@endif
 
 <div class="form-group">
     <div class="col-md-8 col-md-offset-4">
