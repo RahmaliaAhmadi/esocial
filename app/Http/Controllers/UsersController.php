@@ -143,20 +143,24 @@ class UsersController extends Controller
           'full_name' => 'required'
       ] );
 
-      // Dapatkan semua input yang ingin disimpan
-      // $data = $request->all();
-      // $data = $request->only([
-      //   'username',
-      //   'email',
-      //   'full_name',
-      //   'phone',
-      //   'address',
-      //   'role',
-      //   'status',
-      //   'picture'
-      // ]);
+      // Dapatkan semua data dari borang edit kecuali yang dinyatakan
+      $data = $request->except(['password', 'picture']);
 
-      $data = $request->except(['password']);
+      // Lakukan semakan terhadap input picture. Adakah fail untuk diupload wujud>?
+      if( $request->hasFile('picture') )
+      {
+        // Tetapkan syarat supaya fail yang diupload adalah valid
+        if ( $request->file('picture')->isValid() )
+        {
+          // Dapatkan nama asal fail yang diupload
+          //$original_pic_name = $request->picture->getClientOriginalName();
+          // Tetapkan lokasi untuk simpanan fail yang ingin diupload ini.
+          //$path = $request->picture->storeAs('images', $original_pic_name);
+          $path = $request->picture->store('images');
+          // Attach array picture kepada variable $data untuk simpanan nama fail ke table users
+          $data['picture'] = $path;
+        }
+      }
 
       // Semak adakah password ingin ditukar (field tak kosong)
       // Jika ruangan password tidak kosong, attach array password

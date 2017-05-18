@@ -8,9 +8,11 @@
                 <div class="panel-heading">Edit User {{ $user->full_name }}</div>
                 <div class="panel-body">
 
+                  <img src="{{ asset($user->picture) }}">
+
                   @include('layouts/errors')
 
-                  {!! Form::model( $user, ['method' => 'PATCH', 'route' => ['updateUser', $user->id], 'class' => 'form-horizontal'] ) !!}
+                  {!! Form::model( $user, ['method' => 'PATCH', 'route' => ['updateUser', $user->id], 'class' => 'form-horizontal', 'files' => true] ) !!}
 
                       @include('users_tpl/template_borang_users')
 
