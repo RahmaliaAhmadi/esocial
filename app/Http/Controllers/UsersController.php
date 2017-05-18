@@ -213,7 +213,17 @@ class UsersController extends Controller
 
       // Dan hapuskan data
       // $user->delete();
-      User::find($id)->delete();
+      $user = User::find($id);
+
+      // Semak jika role user adalah admin?
+      // Jika admin, sistem tak benar delete
+      if ( $user->role == 'admin' )
+      {
+        return redirect()->route('senaraiUser')->with('alert-danger', 'Anda tak boleh delete admin');
+      }
+
+      // Sebaliknya, delete akaun user jika user bukan role admin
+      $user->delete();
 
       // Redirect ke halaman senarai users
       return redirect()->route('senaraiUser');

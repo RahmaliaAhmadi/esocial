@@ -8,6 +8,8 @@
                 <div class="panel-heading">Users List</div>
                 <div class="panel-body">
 
+                  @include('layouts/errors')
+
                   <p>
                     <a href="{{ route('tambahUser') }}" class="btn btn-primary">Add User</a>
                   </p>
