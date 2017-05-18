@@ -30,7 +30,7 @@
                         <tr>
                           <td>{{ $key->title }}</td>
                           <td>{{ $key->content }}</td>
-                          <td>{{ $key->full_name }}</td>
+                          <td>{{ $key->user->full_name }}</td>
                           <td>{{ $key->status }}</td>
                           <td>
                             <a href="{{ route('editPost', $key->id) }}" class="btn btn-xs btn-info">Edit</a>

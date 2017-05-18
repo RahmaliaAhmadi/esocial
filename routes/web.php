@@ -27,6 +27,7 @@ Route::group( ['prefix' => 'posts', 'middleware' => 'auth'], function() {
 Route::group( ['prefix' => 'users'], function() {
 
   Route::get('/', 'UsersController@index')->name('senaraiUser');
+  Route::get('/datatables', 'UsersController@datatables')->name('datatablesUser');
   Route::get('/add', 'UsersController@create')->name('tambahUser');
   Route::post('/add', 'UsersController@store')->name('simpanUser');
   Route::get('/{id}/edit', 'UsersController@edit')->name('editUser');

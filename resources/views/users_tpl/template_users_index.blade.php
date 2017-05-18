@@ -12,14 +12,13 @@
                     <a href="{{ route('tambahUser') }}" class="btn btn-primary">Add User</a>
                   </p>
 
-                  @if ( count( $users ) )
-
                   <div class="table-responsive">
 
-                    <table class="table table-bordered table-hover">
+                    <table id="users-table" class="table table-bordered table-hover">
 
                       <thead>
                         <tr>
+                          <th>ID</th>
                           <th>Username</th>
                           <th>Full Name</th>
                           <th>Email</th>
@@ -29,38 +28,37 @@
                         </tr>
                       </thead>
 
-                      <tbody>
-
-                        @foreach( $users as $key )
-                        <tr>
-                          <td>{{ $key->username }}</td>
-                          <td>{{ $key->full_name }}</td>
-                          <td>{{ $key->email }}</td>
-                          <td>{{ $key->role }}</td>
-                          <td>{{ $key->status }}</td>
-                          <td>
-                            <a href="{{ route('userPosts', $key->id) }}" class="btn btn-xs btn-info">Posts</a>
-                            <a href="./users/{{ $key->id }}/edit" class="btn btn-xs btn-info">Edit</a>
-                            <a href="{{ route('deleteUser', $key->id) }}" class="btn btn-xs btn-danger">Delete</a>
-                          </td>
-                        </tr>
-                        @endforeach
-
-                      </tbody>
-
                     </table>
 
                   </div><!-- table-responsive -->
-
-                  {!! $users->links() !!}
-                  <br>
-                  {!! $users->render() !!}
-
-                  @endif
 
                 </div>
             </div>
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+
+<script>
+  $(function() {
+        $('#users-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: '{{ route('datatablesUser') }}',
+
+            columns: [
+              {data: 'id', name: 'id'},
+              {data: 'username', name: 'username'},
+              {data: 'full_name', name: 'full_name'},
+              {data: 'email', name: 'email'},
+              {data: 'role', name: 'role'},
+              {data: 'status', name: 'status'},
+              {data: 'action', name: 'action', orderable: false, searchable: false}
+            ]
+        });
+    });
+</script>
 @endsection

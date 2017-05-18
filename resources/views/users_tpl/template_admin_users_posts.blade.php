@@ -8,7 +8,7 @@
                 <div class="panel-heading">Posts List from {{ $user->full_name }}</div>
                 <div class="panel-body">
 
-                  @if( count( $posts ) )
+                  @if( count( $user->posts ) )
 
                   <div class="table-responsive">
 
@@ -25,7 +25,7 @@
 
                       <tbody>
 
-                        @foreach( $posts as $key )
+                        @foreach( $user->posts as $key )
                         <tr>
                           <td>{{ $key->title }}</td>
                           <td>{{ $key->content }}</td>

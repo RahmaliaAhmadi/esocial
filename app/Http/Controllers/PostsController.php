@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Auth;
 use DB;
 
+use App\Models\Post;
+
 class PostsController extends Controller
 {
     /**
@@ -18,14 +20,16 @@ class PostsController extends Controller
     {
 
       //$posts = DB::table('posts')->paginate(5);
-      $posts = DB::table('posts')
-      ->join('users', 'posts.user_id', '=', 'users.id')
-      ->select([
-        'posts.*',
-        'users.username',
-        'users.full_name'
-      ])
-      ->paginate(5);
+      // $posts = DB::table('posts')
+      // ->join('users', 'posts.user_id', '=', 'users.id')
+      // ->select([
+      //   'posts.*',
+      //   'users.username',
+      //   'users.full_name'
+      // ])
+      // ->paginate(5);
+
+      $posts = Post::paginate(5);
 
       // Kita bagi arahan pada laravel supaya beri response
       // Paparkan template bernama template_posts_index.php
